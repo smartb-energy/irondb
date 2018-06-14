@@ -6,6 +6,7 @@ pkg_source="https://github.com/smartb-energy/api"
 pkg_origin=smartb
 pkg_deps=(
   core/bash
+  core/coreutils
   core/gcc-libs
   core/grep
   core/tar

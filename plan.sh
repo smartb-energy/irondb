@@ -4,7 +4,12 @@ pkg_maintainer="smartB Engineering <dev@smartb.eu>"
 pkg_license=("All Rights Reserved")
 pkg_source="https://github.com/smartb-energy/api"
 pkg_origin=smartb
-pkg_deps=(core/tar core/bash core/grep)
+pkg_deps=(
+  core/bash
+  core/gcc-libs
+  core/grep
+  core/tar
+)
 pkg_build_deps=()
 pkg_bin_dirs=()
 pkg_lib_dirs=()

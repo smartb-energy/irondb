@@ -35,10 +35,10 @@ grep 'delete_after_quiescent_age="{{cfg.delete_after_quiescent_age}}"' /opt/circ
 
 if [ ! -f /hab/svc/{{pkg.name}}/files/licenses.conf  ]
 then
-  echo "No IronDB license file found at /hab/svc/{{pkg.name}}/files/licenses.conf"
-  echo "Upload a license file like:"
-  echo "  hab file upload --remote-sup $local_ip {{pkg.name}}.{{pkg.svc_group}} $(date +%s) /path/to/licenses.conf"
-  echo "Exiting since we have no license..."
+  echo 'No IronDB license file found at /hab/svc/{{pkg.name}}/files/licenses.conf'
+  echo 'Upload a license file like:'
+  echo '  hab file upload [--remote-sup <supervisor_ip>] {{pkg.name}}.{{svc.group}} $(date +%s) /path/to/licenses.conf'
+  echo 'Exiting since we have no license...'
   exit 1
 fi
 

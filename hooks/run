@@ -2,4 +2,6 @@
 
 exec 2>&1
 
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
+
 exec /opt/circonus/bin/irondb-start -D 2>&1{{#if cfg.logs.split ~}} | systemd-cat --identifier={{pkg.name}}.{{svc.group}}{{/if }}

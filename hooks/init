@@ -8,7 +8,7 @@ echo "deb [trusted=yes] http://pilot.circonus.net/ubuntu/ xenial main" > /etc/ap
 
 apt-get --yes install zfsutils-linux
 
-if ! zpool list | grep {{cfg.zfs_pool}}
+if ! zpool list {{cfg.zfs_pool}}
 then
   root_device=$(lsblk --list --output +PKNAME | grep 'part /' | awk '{print $8}')
   pool_devices=$(echo -n $(lsblk --list | grep disk | grep -v $root_device | awk '{print $1}'))

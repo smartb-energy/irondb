@@ -8,9 +8,12 @@ echo "deb [trusted=yes] http://pilot.circonus.net/ubuntu/ xenial main" > /etc/ap
 
 apt-get --yes install zfsutils-linux
 
-root_device=$(lsblk --list --output +PKNAME | grep 'part /' | awk '{print $8}')
-pool_devices=$(echo -n $(lsblk --list | grep disk | grep -v $root_device | awk '{print $1}'))
-zpool create -f {{cfg.zfs_pool}} mirror $(echo -n $(fdisk -l | grep '200 GiB' | awk '{print $2}' | cut -d':' -f1))
+if ! zpool list | grep {{cfg.zfs_pool}}
+then
+  root_device=$(lsblk --list --output +PKNAME | grep 'part /' | awk '{print $8}')
+  pool_devices=$(echo -n $(lsblk --list | grep disk | grep -v $root_device | awk '{print $1}'))
+  zpool create -f {{cfg.zfs_pool}} mirror $(echo -n $(fdisk -l | grep '200 GiB' | awk '{print $2}' | cut -d':' -f1))
+fi
 
 apt-get update --allow-unauthenticated
 apt-get --yes --allow-unauthenticated install circonus-platform-irondb-apt-policy={{pkg.version}}

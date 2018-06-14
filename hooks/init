@@ -33,7 +33,12 @@ sed -i 's@delete_after_quiescent_age="2hr"@delete_after_quiescent_age="{{cfg.del
 grep 'min_delete_age="{{cfg.min_delete_age}}"' /opt/circonus/etc/irondb.conf
 grep 'delete_after_quiescent_age="{{cfg.delete_after_quiescent_age}}"' /opt/circonus/etc/irondb.conf
 
-if [ ! -f /hab/svc/{{pkg.name}}/files/licenses.conf  ]
+# disable and remove systemd service since we are using a Habitat service
+systemctl stop circonus-irondb.service
+systemctl disable circonus-irondb.service
+rm /lib/systemd/system/circonus-irondb.service
+
+if [ ! -f /hab/svc/{{pkg.name}}/files/licenses.conf  ] || [ ! -f /opt/circonus/etc/licenses.conf ]
 then
   echo 'No IronDB license file found at /hab/svc/{{pkg.name}}/files/licenses.conf'
   echo 'Upload a license file like:'

@@ -2,7 +2,7 @@
 
 exec 2>&1
 
-set -e
+set -ex
 
 echo "deb [trusted=yes] http://pilot.circonus.net/ubuntu/ xenial main" > /etc/apt/sources.list.d/circonus.list
 

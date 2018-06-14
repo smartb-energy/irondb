@@ -24,7 +24,7 @@ apt-get --yes --allow-unauthenticated install circonus-platform-irondb={{pkg.ver
 
 if ! grep "=== SETUP COMPLETE ===" /var/log/irondb-setup.log
 then
-  local_ip=$(ifconfig | grep "10.\|172.16.\|192.168." | grep "inet addr:" | cut -d":" -f2 | cut -d" " -f1)
+  export local_ip=$(ifconfig | grep "10.\|172.16.\|192.168." | grep "inet addr:" | cut -d":" -f2 | cut -d" " -f1)
   /opt/circonus/bin/setup-irondb -a $local_ip -n "$(uuidgen)" -c placeholder_check -u "$(uuidgen)" -z {{cfg.zfs_pool}}
 fi
 
@@ -32,6 +32,15 @@ sed -i 's@min_delete_age="4w"@min_delete_age="{{cfg.min_delete_age}}"@' /opt/cir
 sed -i 's@delete_after_quiescent_age="2hr"@delete_after_quiescent_age="{{cfg.delete_after_quiescent_age}}"@' /opt/circonus/etc/irondb.conf
 grep 'min_delete_age="{{cfg.min_delete_age}}"' /opt/circonus/etc/irondb.conf
 grep 'delete_after_quiescent_age="{{cfg.delete_after_quiescent_age}}"' /opt/circonus/etc/irondb.conf
+
+if [ ! -f /hab/svc/{{pkg.name}}/files/licenses.conf  ]
+then
+  echo "No IronDB license file found at /hab/svc/{{pkg.name}}/files/licenses.conf"
+  echo "Upload a license file like:"
+  echo "  hab file upload --remote-sup $local_ip {{pkg.name}}.{{pkg.svc_group}} $(date +%s) /path/to/licenses.conf"
+  echo "Exiting since we have no license..."
+  exit 1
+fi
 
 pushd /opt/circonus/etc
   ln -fs /hab/svc/{{pkg.name}}/files/licenses.conf

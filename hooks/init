@@ -1,0 +1,32 @@
+#!/bin/bash
+
+exec 2>&1
+
+set -e
+
+echo "deb [trusted=yes] http://pilot.circonus.net/ubuntu/ xenial main" > /etc/apt/sources.list.d/circonus.list
+
+apt-get --yes install zfsutils-linux
+
+root_device=$(lsblk --list --output +PKNAME | grep 'part /' | awk '{print $8}')
+pool_devices=$(echo -n $(lsblk --list | grep disk | grep -v $root_device | awk '{print $1}'))
+zpool create -f {{cfg.zfs_pool}} mirror $(echo -n $(fdisk -l | grep '200 GiB' | awk '{print $2}' | cut -d':' -f1))
+
+apt-get update --allow-unauthenticated
+apt-get --yes --allow-unauthenticated install circonus-platform-irondb-apt-policy={{pkg.version}}
+apt-get update --allow-unauthenticated
+apt-get --yes --allow-unauthenticated install circonus-platform-irondb={{pkg.version}}
+
+if grep "=== SETUP COMPLETE ===" /var/log/irondb-setup.log
+then
+  /opt/circonus/bin/setup-irondb -a $(hostname -I) -n "$(uuidgen)" -c placeholder_check -u "$(uuidgen)" -z {{cfg.zfs_pool}}
+fi
+
+sed -i 's@min_delete_age="4w"@min_delete_age="{{cfg.min_delete_age}}"@' /opt/circonus/etc/irondb.conf
+sed -i 's@delete_after_quiescent_age="2hr"@delete_after_quiescent_age="{{cfg.delete_after_quiescent_age}}"@' /opt/circonus/etc/irondb.conf
+grep 'min_delete_age="{{cfg.min_delete_age}}"' /opt/circonus/etc/irondb.conf
+grep 'delete_after_quiescent_age="{{cfg.delete_after_quiescent_age}}"' /opt/circonus/etc/irondb.conf
+
+pushd /opt/circonus/etc
+  ln -fs /hab/svc/{{pkg.name}}/files/licenses.conf
+popd

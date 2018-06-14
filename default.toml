@@ -1,0 +1,12 @@
+company = "smartb"
+created_by_user = 4598
+delete_after_quiescent_age = "36500d"
+expiry = 1559991453
+graphite = true
+licence_sig = ""
+license_id = ""
+license_requestor = ""
+lua_extension = "enable"
+max_streams = 25000
+min_delete_age = "36500d"
+zfs_pool = "irondb"

@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+exec 2>&1
+
+exec chpst \
+  -U hab:hab \
+  -u hab:hab \
+    /opt/circonus/bin/irondb-start -D 2>&1{{#if cfg.logs.split ~}} | systemd-cat --identifier={{pkg.name}}.{{svc.group}}{{/if }}

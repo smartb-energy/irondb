@@ -22,7 +22,7 @@ apt-get --yes --allow-unauthenticated install circonus-platform-irondb-apt-polic
 apt-get update --allow-unauthenticated
 apt-get --yes --allow-unauthenticated install circonus-platform-irondb={{pkg.version}}
 
-if grep "=== SETUP COMPLETE ===" /var/log/irondb-setup.log
+if ! grep "=== SETUP COMPLETE ===" /var/log/irondb-setup.log
 then
   /opt/circonus/bin/setup-irondb -a $(hostname -I) -n "$(uuidgen)" -c placeholder_check -u "$(uuidgen)" -z {{cfg.zfs_pool}}
 fi

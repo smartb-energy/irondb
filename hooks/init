@@ -4,6 +4,8 @@ exec 2>&1
 
 set -ex
 
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
+
 echo "deb [trusted=yes] http://pilot.circonus.net/ubuntu/ xenial main" > /etc/apt/sources.list.d/circonus.list
 
 apt-get --yes install zfsutils-linux

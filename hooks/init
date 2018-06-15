@@ -24,7 +24,7 @@ apt-get --yes --allow-unauthenticated install circonus-platform-irondb={{pkg.ver
 
 if ! grep "=== SETUP COMPLETE ===" /var/log/irondb-setup.log
 then
-  export local_ip=$(ifconfig | grep "10.\|172.16.\|192.168." | grep "inet addr:" | cut -d":" -f2 | cut -d" " -f1)
+  export local_ip=$(ifconfig | grep "10\.\|172\.16\.\|192\.168\." | grep "inet addr:" | cut -d":" -f2 | cut -d" " -f1)
   /opt/circonus/bin/setup-irondb -a $local_ip -n "$(uuidgen)" -c placeholder_check -u "$(uuidgen)" -z {{cfg.zfs_pool}}
 fi
 

@@ -7,31 +7,15 @@ set -ex
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
 
 echo "deb [trusted=yes] http://pilot.circonus.net/ubuntu/ xenial main" > /etc/apt/sources.list.d/circonus.list
-
-apt-get --yes install zfsutils-linux
-
-if ! zpool list {{cfg.zfs_pool}}
-then
-  root_device=$(lsblk --list --output +PKNAME | grep 'part /' | awk '{print $8}')
-  pool_devices=$(echo -n $(lsblk --list | grep disk | grep -v $root_device | awk '{print $1}'))
-  zpool create -f {{cfg.zfs_pool}} mirror $(echo -n $(fdisk -l | grep '200 GiB' | awk '{print $2}' | cut -d':' -f1))
-fi
-
-apt-get update --allow-unauthenticated
 apt-get --yes --allow-unauthenticated install circonus-platform-irondb-apt-policy={{pkg.version}}
 apt-get update --allow-unauthenticated
 apt-get --yes --allow-unauthenticated install circonus-platform-irondb={{pkg.version}}
 
 if ! grep "=== SETUP COMPLETE ===" /var/log/irondb-setup.log
 then
-  export local_ip=$(ifconfig | grep "10\.\|172\.16\.\|192\.168\." | grep "inet addr:" | cut -d":" -f2 | cut -d" " -f1)
-  /opt/circonus/bin/setup-irondb -a $local_ip -n "$(uuidgen)" -c placeholder_check -u "$(uuidgen)" -z {{cfg.zfs_pool}}
+  uuid=$(cat /opt/circonus/node_uuid.txt)
+  /opt/circonus/bin/setup-irondb -a "{{sys.ip}}" -n ${uuid} -c "{{cfg.default_check_name}}" -u "{{cfg.default_check_uuid}}"
 fi
-
-sed -i 's@min_delete_age="4w"@min_delete_age="{{cfg.min_delete_age}}"@' /opt/circonus/etc/irondb.conf
-sed -i 's@delete_after_quiescent_age="2hr"@delete_after_quiescent_age="{{cfg.delete_after_quiescent_age}}"@' /opt/circonus/etc/irondb.conf
-grep 'min_delete_age="{{cfg.min_delete_age}}"' /opt/circonus/etc/irondb.conf
-grep 'delete_after_quiescent_age="{{cfg.delete_after_quiescent_age}}"' /opt/circonus/etc/irondb.conf
 
 # disable and remove systemd service since we are using a Habitat service
 if systemctl status circonus-irondb.service
@@ -41,15 +25,7 @@ then
   rm /lib/systemd/system/circonus-irondb.service
 fi
 
-if [ ! -f /hab/svc/{{pkg.name}}/files/licenses.conf  ] || [ ! -f /opt/circonus/etc/licenses.conf ]
-then
-  echo 'No IronDB license file found at /hab/svc/{{pkg.name}}/files/licenses.conf'
-  echo 'Upload a license file like:'
-  echo '  hab file upload [--remote-sup <supervisor_ip>] {{pkg.name}}.{{svc.group}} $(date +%s) /path/to/licenses.conf'
-  echo 'Exiting since we have no license...'
-  exit 1
-fi
-
 pushd /opt/circonus/etc
-  ln -fs /hab/svc/{{pkg.name}}/files/licenses.conf
+  ln -fs {{pkg.svc_config_path}}/licenses.conf
+  ln -fs {{pkg.svc_config_path}}/irondb.conf
 popd

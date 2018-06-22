@@ -1,6 +1,5 @@
 company = "smartb"
 created_by_user = 4598
-delete_after_quiescent_age = "36500d"
 expiry = 1559991453
 graphite = true
 licence_sig = ""
@@ -8,5 +7,34 @@ license_id = ""
 license_requestor = ""
 lua_extension = "enable"
 max_streams = 25000
+
+default_check_uuid = "bda06a18-7c98-4c39-b209-0cb24e43af89"
+default_check_name = "default_check"
+
+[rollups]
+period = "60"
+directory = "1m"
+nntbs_shard_size = "1d"
+
+[rollups]
+period = "300"
+directory = "5m"
+nntbs_shard_size = "5d"
+
+[rollups]
+period = "1800"
+directory = "30m"
+nntbs_shard_size = "30d"
+
+[rollups]
+period = "10800"
+directory = "3h"
+nntbs_shard_size = "365d"
+
+[raw_database]
+data_db = "nomdb"
+granularity = "1w"
 min_delete_age = "36500d"
-zfs_pool = "irondb"
+delete_after_quiescent_age = "36500d"
+max_clock_skew = "1d"
+rollup_strategy = "raw_iterator"

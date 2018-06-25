@@ -8,6 +8,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
 
 echo "deb [trusted=yes] http://pilot.circonus.net/ubuntu/ xenial main" > /etc/apt/sources.list.d/circonus.list
 apt-get update --allow-unauthenticated
+apt-get --yes --allow-unauthenticated install circonus-platform-snowth=0.1.1523546375-5 # remove if fixed
 apt-get --yes --allow-unauthenticated install circonus-platform-irondb-apt-policy
 apt-get --yes --allow-unauthenticated install circonus-platform-irondb={{pkg.version}}
 

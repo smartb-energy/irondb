@@ -7,8 +7,8 @@ set -ex
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
 
 echo "deb [trusted=yes] http://pilot.circonus.net/ubuntu/ xenial main" > /etc/apt/sources.list.d/circonus.list
-apt-get --yes --allow-unauthenticated install circonus-platform-irondb-apt-policy={{pkg.version}}
 apt-get update --allow-unauthenticated
+apt-get --yes --allow-unauthenticated install circonus-platform-irondb-apt-policy={{pkg.version}}
 apt-get --yes --allow-unauthenticated install circonus-platform-irondb={{pkg.version}}
 
 if ! grep "=== SETUP COMPLETE ===" /var/log/irondb-setup.log

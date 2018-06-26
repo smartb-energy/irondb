@@ -17,7 +17,7 @@ if systemctl status circonus-irondb.service
 then
   systemctl stop circonus-irondb.service
   systemctl disable circonus-irondb.service
-  rm /lib/systemd/system/circonus-irondb.service
+  # rm /lib/systemd/system/circonus-irondb.service
 fi
 
 pushd /opt/circonus/etc

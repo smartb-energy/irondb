@@ -34,7 +34,7 @@ pushd /opt/circonus/etc
   ln -fs {{pkg.svc_config_path}}/irondb.conf
 popd
 
-if [ ! -e /opt/circonus/etc/irondb.conf ] ; then
+if [ ! -e /opt/circonus/etc/topology.conf ] ; then
     exit 1
 fi
 

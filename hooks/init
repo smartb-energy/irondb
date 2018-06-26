@@ -6,6 +6,14 @@ set -ex
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
 
+cat > /opt/circonus/etc/topology_snippet.conf << EOF
+<topology path="/opt/circonus/etc/irondb-topo"
+          active=""
+          next=""
+          redo="/irondb/redo/{node}"
+/>
+EOF
+
 if ! grep "=== SETUP COMPLETE ===" /var/log/irondb-setup.log
 then
   uuid=$(cat /opt/circonus/node_uuid.txt)
@@ -21,14 +29,13 @@ then
 fi
 
 pushd /opt/circonus/etc
-  ln -fs /opt/circonus/topology
+  ln -fs {{pkg.svc_files_path}}/topology.conf
   ln -fs {{pkg.svc_files_path}}/licenses.conf
   ln -fs {{pkg.svc_config_path}}/irondb.conf
-  ln -fs {{pkg.svc_config_path}}/topology_snippet.conf
 popd
 
-active_topology_hash=$(/opt/circonus/bin/snowthimport -c /opt/circonus/etc/irondb.conf -f /opt/circonus/etc/topology | awk '{print $3}')
-cat > /opt/circonus/etc/topology_snippet.conf <<EOF
+export active_topology_hash=$(/opt/circonus/bin/snowthimport -c /opt/circonus/etc/irondb.conf -f /opt/circonus/etc/topology | awk '{print $3}')
+cat > /opt/circonus/etc/topology_snippet.conf << EOF
 <topology path="/opt/circonus/etc/irondb-topo"
           active="${active_topology_hash}"
           next=""

@@ -28,7 +28,7 @@ pushd /opt/circonus/etc
 popd
 
 active_topology_hash=$(/opt/circonus/bin/snowthimport -c /opt/circonus/etc/irondb.conf -f /opt/circonus/etc/topology | awk '{print $3}')
-cat >/opt/circonus/etc/topology_snippet.conf <<EOF
+cat > /opt/circonus/etc/topology_snippet.conf <<EOF
 <topology path="/opt/circonus/etc/irondb-topo"
           active="${active_topology_hash}"
           next=""

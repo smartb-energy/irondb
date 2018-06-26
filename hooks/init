@@ -34,6 +34,10 @@ pushd /opt/circonus/etc
   ln -fs {{pkg.svc_config_path}}/irondb.conf
 popd
 
+if [ ! -e /opt/circonus/etc/irondb.conf ] ; then
+    exit 1
+fi
+
 export active_topology_hash=$(/opt/circonus/bin/snowthimport -c /opt/circonus/etc/irondb.conf -f /opt/circonus/etc/topology | awk '{print $3}')
 cat > /opt/circonus/etc/topology_snippet.conf << EOF
 <topology path="/opt/circonus/etc/irondb-topo"

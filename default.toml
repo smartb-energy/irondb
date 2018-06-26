@@ -17,18 +17,18 @@ directory = "1m"
 nntbs_shard_size = "1d"
 
 [[rollups]]
-period = "300"
-directory = "5m"
+period = "900"
+directory = "15m"
 nntbs_shard_size = "5d"
 
 [[rollups]]
-period = "1800"
-directory = "30m"
-nntbs_shard_size = "30d"
+period = "3600"
+directory = "1h"
+nntbs_shard_size = "31d"
 
 [[rollups]]
-period = "10800"
-directory = "3h"
+period = "86400"
+directory = "1d"
 nntbs_shard_size = "365d"
 
 [raw_database]

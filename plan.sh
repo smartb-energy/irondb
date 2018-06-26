@@ -15,7 +15,6 @@ pkg_build_deps=()
 pkg_bin_dirs=()
 pkg_lib_dirs=()
 pkg_include_dirs=()
-pkg_svc_run="/opt/circonus/bin/irondb-start -D"
 pkg_svc_user="root"
 
 do_download() {

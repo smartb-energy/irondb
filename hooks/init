@@ -43,8 +43,12 @@ pushd /opt/circonus/etc
   ln -fs {{pkg.svc_config_path}}/irondb.conf
 popd
 
-if [ ! -e /opt/circonus/etc/topology.conf ] ; then
-    exit 1
+if [ ! -e /opt/circonus/etc/topology.conf ]
+then
+  echo "/opt/circonus/etc/topology.conf not linked to master config at"
+  echo "/hab/svc/irondb/files/topology.conf!"
+  echo "exiting..."
+  exit 1
 fi
 
 export active_topology_hash=$(/opt/circonus/bin/snowthimport -c /opt/circonus/etc/irondb.conf -f /opt/circonus/etc/topology.conf | awk '{print $3}')

@@ -6,7 +6,7 @@ set -ex
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
 
-if [ $(dpkg -s circonus-platform-irondb | grep Version | awk '{print $2}') != "{{pkg.version}}" ]
+if [ "$(dpkg -s circonus-platform-irondb | grep Version | awk '{print $2}')" != "{{pkg.version}}" ]
 then
   echo "deb [trusted=yes] http://pilot.circonus.net/ubuntu/ xenial main" > /etc/apt/sources.list.d/circonus.list
   apt-get update --allow-unauthenticated

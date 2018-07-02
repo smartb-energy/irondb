@@ -35,6 +35,7 @@ fi
 
 pushd /opt/circonus/etc
   ln -fs {{pkg.svc_config_path}}/irondb.conf
+  ln -fs {{pkg.svc_config_path}}/licenses.conf
 popd
 
 if [ ! -e /opt/circonus/etc/topology.conf ]

@@ -34,8 +34,6 @@ then
 fi
 
 pushd /opt/circonus/etc
-  ln -fs {{pkg.svc_files_path}}/topology.conf
-  ln -fs {{pkg.svc_files_path}}/licenses.conf
   ln -fs {{pkg.svc_config_path}}/irondb.conf
 popd
 

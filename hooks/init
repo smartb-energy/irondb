@@ -6,14 +6,10 @@ set -ex
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
 
-if [ "$(dpkg -s circonus-platform-irondb | grep Version | awk '{print $2}')" != "{{pkg.version}}" ]
-then
-  echo "deb [trusted=yes] http://pilot.circonus.net/ubuntu/ xenial main" > /etc/apt/sources.list.d/circonus.list
-  apt-get update --allow-unauthenticated
-  apt-get --yes --allow-unauthenticated install circonus-platform-irondb-apt-policy={{pkg.version}}
-  apt-get --yes --allow-unauthenticated install $(apt-cache depends circonus-platform-irondb={{pkg.version}} | grep Depends | apt-cache depends circonus-platform-irondb | grep Depends | awk '{print $2}' | xargs)
-  apt-get --yes --allow-unauthenticated install circonus-platform-irondb={{pkg.version}}
-fi
+echo "deb [trusted=yes] http://pilot.circonus.net/ubuntu/ xenial main" > /etc/apt/sources.list.d/circonus.list
+apt-get update --allow-unauthenticated
+apt-get --yes --allow-unauthenticated install circonus-platform-irondb-apt-policy={{pkg.version}}
+apt-get --yes --allow-unauthenticated install circonus-platform-irondb={{pkg.version}}
 
 cat > /opt/circonus/etc/topology_snippet.conf << EOF
 <topology path="/opt/circonus/etc/irondb-topo"

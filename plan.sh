@@ -1,5 +1,5 @@
 pkg_name=irondb
-pkg_version=0.11.19-1
+pkg_version=0.11.18-5
 pkg_maintainer="smartB Engineering <dev@smartb.eu>"
 pkg_license=("All Rights Reserved")
 pkg_source="https://github.com/smartb-energy/api"

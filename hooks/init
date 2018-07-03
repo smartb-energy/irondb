@@ -38,10 +38,10 @@ pushd /opt/circonus/etc
   ln -fs {{pkg.svc_config_path}}/licenses.conf
 popd
 
-if [ ! -e /opt/circonus/etc/topology.conf ]
+topology_file="/opt/circonus/etc/topology.conf"
+if [ ! -e $topology_file ]
 then
-  echo "/opt/circonus/etc/topology.conf not linked to master config at"
-  echo "/hab/svc/irondb/files/topology.conf!"
+  echo "$topology_file not found!"
   echo "exiting..."
   exit 1
 fi

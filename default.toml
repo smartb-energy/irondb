@@ -7,6 +7,7 @@ license_id = ""
 license_requestor = ""
 lua_extension = "enable"
 max_streams = 25000
+port = 8112
 
 
 default_check_uuid = "bda06a18-7c98-4c39-b209-0cb24e43af89"

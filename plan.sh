@@ -16,6 +16,9 @@ pkg_bin_dirs=()
 pkg_lib_dirs=()
 pkg_include_dirs=()
 pkg_svc_user="root"
+pkg_exports=(
+  [port]=port
+)
 
 do_download() {
   return 0

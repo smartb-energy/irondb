@@ -44,12 +44,3 @@ do_install() {
 do_strip() {
   return 0
 }
-
-do_end() {
-  export pkg_origin
-  export pkg_name
-  export pkg_version
-  export pkg_release
-  #$PLAN_CONTEXT/../../functions/notify_build_completed.sh
-  return $?
-}

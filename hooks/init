@@ -26,7 +26,7 @@ then
 fi
 
 # disable and remove systemd service since we are using a Habitat service
-if systemctl status circonus-irondb.service
+if systemctl status circonus-irondb.service > /dev/null
 then
   systemctl stop circonus-irondb.service
   systemctl disable circonus-irondb.service

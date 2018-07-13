@@ -15,7 +15,7 @@ pkg_build_deps=()
 pkg_bin_dirs=()
 pkg_lib_dirs=()
 pkg_include_dirs=()
-pkg_svc_user="root"
+pkg_svc_user="root" # required to give us access to ZFS utilities
 pkg_exports=(
   [port]=port
 )

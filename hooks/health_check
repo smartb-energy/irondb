@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# see http://manpages.ubuntu.com/manpages/xenial/en/man8/zpool.8.html
+
+for zpool in $(zpool list -H | awk '{print $1}')
+do
+  zpool_state=$(zpool status -v $zpool | grep state: | awk '{print $2}')
+
+  if [ "$zpool_state" == "ONLINE" ]
+  then
+    exit 0 # okay
+
+  elif [ "$zpool_state" == "DEGRADED" ]
+  then
+    exit 1 # warning
+
+  else
+    exit 2 # critical
+  fi
+done

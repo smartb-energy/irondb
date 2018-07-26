@@ -1,17 +1,6 @@
-company = "smartb"
-created_by_user = 4598
-expiry = 1559991453
-graphite = true
-licence_sig = ""
-license_id = ""
-license_requestor = ""
-lua_extension = "enable"
-max_streams = 25000
-port = 8112
-
-
-default_check_uuid = "bda06a18-7c98-4c39-b209-0cb24e43af89"
 default_check_name = "default_check"
+default_check_uuid = "bda06a18-7c98-4c39-b209-0cb24e43af89"
+port = 8112
 
 [[rollups]]
 period = "60"

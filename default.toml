@@ -22,6 +22,14 @@ period = "86400"
 directory = "1d"
 nntbs_shard_size = "365d"
 
+[logs]
+split = false
+error_disabled = "false"
+debug_disabled = "true"
+debug_eventer_disabled = "true"
+debug_http_disabled = "true"
+http_io_disabled = "true"
+
 [raw_database]
 data_db = "nomdb"
 granularity = "1w"
